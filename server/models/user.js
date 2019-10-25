@@ -1,15 +1,6 @@
 const mongoose = require('mongoose');
-const connectionUrl = 'mongodb://127.0.0.1:27017';
-const databaseName = 'task-manager';
 const validator = require('validator');
 
-mongoose.connect(`${connectionUrl}/${databaseName}`, {
-    useNewUrlParser:true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-});
-
-// schema
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -48,15 +39,5 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-// model is a class in which we construct doments
 const User = mongoose.model('User', userSchema);
-
-const marlene = new User({ 
-    name: 'Marlene',
-    age: 37,
-    email: 'marlenebowls@gmail.com',
-    password: 'pass'
-});
-marlene.save().then(user => {
-    console.log(user);
-});
+module.exports = User;
