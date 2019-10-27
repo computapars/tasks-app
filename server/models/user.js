@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -8,6 +9,8 @@ const userSchema = new mongoose.Schema({
         trim: true,
     },
     email: {
+        minlength: 1,
+        unique: true,
         type: String,
         required: [true, 'You have to provide'],
         trim: true,
@@ -16,7 +19,7 @@ const userSchema = new mongoose.Schema({
             if(!validator.isEmail(value)){
                 throw new Error('Email is invalid')
             }
-        }
+        },
     },
     age: {
         type: Number,
@@ -36,8 +39,13 @@ const userSchema = new mongoose.Schema({
                 throw new Error('Can\'t use the word password')
             }
         }
-    }
+    },
 });
+
+// userSchema.pre('save', async function (next) {
+//     console.log(this)
+//     next();
+// });
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;

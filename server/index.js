@@ -8,7 +8,6 @@ const taskRouter = require('./routers/task');
 
 app.use(userRouter);
 app.use(taskRouter);
-
 // Runs mongoose db
 require('./db/mongoose');
 
