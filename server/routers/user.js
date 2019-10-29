@@ -5,6 +5,7 @@ const auth = require('../middleware/auth');
 
 router.post('/users', async (req, res) => {
     const user = new User(req.body);
+
     try {
         await user.save();
         const token = await user.generateAuthToken();
@@ -49,19 +50,19 @@ router.get('/users/me', auth, async (req, res) => {
     res.send(req.user);
 });
 
-router.get('/users/:id', async (req, res) => {
-    const _id = req.params.id;
-    try {
-        const user = await User.findById(_id);
-        // mongoose may return an empty user if there is none with that id
-        if (!user) {
-            return res.status(400).send();
-        }
-        res.send(user);
-    } catch(err) {
-        return res.status(500).send()
-    }
-});
+// router.get('/users/:id', async (req, res) => {
+//     const _id = req.params.id;
+//     try {
+//         const user = await User.findById(_id);
+//         // mongoose may return an empty user if there is none with that id
+//         if (!user) {
+//             return res.status(400).send();
+//         }
+//         res.send(user);
+//     } catch(err) {
+//         return res.status(500).send()
+//     }
+// });
 
 router.patch('/users/me', auth, async (req, res) => {
     const _id = req.user._id;

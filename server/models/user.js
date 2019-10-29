@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+// const uniqueValidator = require('mongoose-unique-validator');
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -46,7 +47,11 @@ const userSchema = new mongoose.Schema({
             type: String,
             required: true,
         },
-    }]
+    }],
+    house: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: false,
+    }
 });
 
 userSchema.pre('save', async function (next) {
@@ -65,6 +70,7 @@ userSchema.statics.findByCredentials = async (email, password) => {
     if (!isMatching) {
         throw new Error ('Unable to login');
     }
+    
     return user;
 }
 
@@ -85,6 +91,8 @@ userSchema.methods.toJSON = function () {
     delete userObject.password;
     return userObject;
 }
+
+// userSchema.plugin(uniqueValidator);
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;
