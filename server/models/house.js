@@ -10,7 +10,7 @@ const houseSchema = new mongoose.Schema({
     members: [{
         member: {
             type: mongoose.Schema.Types.ObjectId,
-            required: false,
+            required: true,
         },
     }]
 });

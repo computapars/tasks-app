@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-// const uniqueValidator = require('mongoose-unique-validator');
+
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -54,6 +54,13 @@ const userSchema = new mongoose.Schema({
     }
 });
 
+// virtuals can't be queried
+// userSchema.virtual('task', {
+//     ref: 'Task',
+//     localField: '_id',
+//     foreignField: 'task',
+// })
+
 userSchema.pre('save', async function (next) {
     if(this.isModified('password')){
         this.password = await bcrypt.hash(this.password, 8);
@@ -79,7 +86,7 @@ userSchema.methods.generateAuthToken = async function () {
     const token = jwt.sign({
         _id: this._id.toString(),
     }, 'somesignature');
-    this.tokens = this.tokens.concat({ token});
+    this.tokens = this.tokens.concat({ token });
     await this.save();
     return token;
 }
@@ -92,7 +99,6 @@ userSchema.methods.toJSON = function () {
     return userObject;
 }
 
-// userSchema.plugin(uniqueValidator);
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;

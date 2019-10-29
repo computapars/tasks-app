@@ -7,7 +7,9 @@ router.post('/house', auth, async (req, res) => {
     try {
         const house = new House({
             members: {
-                member: {...req.user}
+                member: {
+                    ...req.user,
+                },
             },
             ...req.body
         });
@@ -16,6 +18,7 @@ router.post('/house', auth, async (req, res) => {
         await req.user.save();
         res.status(201).send(house);
     } catch (err) {
+        console.log(err)
         res.status(400).send(err);
     }
 });
@@ -23,21 +26,23 @@ router.post('/house', auth, async (req, res) => {
 // delete the house
 // rename the house
 // add more members to the house
-// router.patch('/house/members', auth, async (req, res) => {
-//     try {
-//         const house = new House({
-//             members: {
-//                 member: {...req.user}
-//             },
+router.patch('/house', auth, async (req, res) => {
+    try {
+        const house = await House.findOne({ name: req.body.name});
 
-//         });
-//         req.user.house = house;
-//         await house.save();
-//         await req.user.save();
-//         res.status(201).send(house);
-//     } catch (err) {
-//         res.status(400).send(err);
-//     }
-// });
+        house.members = house.members.concat({
+            member: {
+                ...req.user,
+            }
+        });
+        req.user.house = house;
+        await house.save();
+        await req.user.save();
+        res.status(201).send(house);
+    } catch (err) {
+        console.log(err)
+        res.status(400).send(err);
+    }
+});
 
 module.exports = router;
