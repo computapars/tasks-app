@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Task = './task';
 
 const houseSchema = new mongoose.Schema({
     name: {
@@ -11,15 +12,18 @@ const houseSchema = new mongoose.Schema({
         member: {
             type: mongoose.Schema.Types.ObjectId,
             required: true,
+            ref: 'User',
         },
     }]
 });
- 
-houseSchema.virtual('tasks', {
-    ref: 'Task',
-    localField: 'owner._id',
-    foreignField:'_id'
-})
+
+
+houseSchema.pre('remove', async function (next) {
+    await Task.deleteMany({
+        owner: this._id,
+    })
+    next();
+});
 
 const House = mongoose.model('House', houseSchema);
 module.exports = House;
