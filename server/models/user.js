@@ -54,12 +54,6 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-// virtuals can't be queried
-// userSchema.virtual('task', {
-//     ref: 'Task',
-//     localField: '_id',
-//     foreignField: 'task',
-// })
 
 userSchema.pre('save', async function (next) {
     if(this.isModified('password')){

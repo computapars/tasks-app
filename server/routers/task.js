@@ -1,9 +1,14 @@
 const express = require('express');
-let router = express.Router();
+const router = express.Router();
 const Task = require('./../models/task');
+const auth = require('./../middleware/auth');
 
-router.post('/tasks', async (req, res) => {
-    const task = new Task(req.body);
+router.post('/tasks', auth, async (req, res) => {
+    const task = new Task({
+        owner: req.house,
+        ...req.body,
+        assignedTo: req.user._id
+    });
     try {
         await task.save();
         res.status(201).send(task);
@@ -12,11 +17,14 @@ router.post('/tasks', async (req, res) => {
     }
 }); 
 
-router.get('/tasks', async (req, res) => {
+router.get('/tasks/house', auth, async (req, res) => {
     try {
-        const tasks = await Task.find({});
+        const tasks = await Task.find({
+            owner: req.house._id,
+        });
         res.send(tasks);
     } catch (err) {
+        console.log(err)
         res.status(500).send();
     }
 });

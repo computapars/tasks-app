@@ -14,6 +14,12 @@ const houseSchema = new mongoose.Schema({
         },
     }]
 });
+ 
+houseSchema.virtual('tasks', {
+    ref: 'Task',
+    localField: 'owner._id',
+    foreignField:'_id'
+})
 
 const House = mongoose.model('House', houseSchema);
 module.exports = House;
