@@ -78,5 +78,13 @@ userSchema.methods.generateAuthToken = async function () {
     return token;
 }
 
+// Overrides the method that is called whenever the user object is stringified (sent)
+userSchema.methods.toJSON = function () {
+    const userObject = this.toObject();
+    delete userObject.tokens;
+    delete userObject.password;
+    return userObject;
+}
+
 const User = mongoose.model('User', userSchema);
 module.exports = User;
