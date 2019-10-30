@@ -6,5 +6,9 @@ $ pathtomongo/bin/mongod --dbpath=/pathtodbfolder/mongodb-data
 
  - figure out how to rename app
  - figure out httpstatuses
- - add groups that is related to users
- - add users to tasks
+
+todo:
+re-assigning tasks automated
+
+Later on
+assigning tasks by hand
