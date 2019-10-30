@@ -5,7 +5,7 @@ const auth = require('./../middleware/auth');
 
 router.post('/tasks', auth, async (req, res) => {
     const task = new Task({
-        owner: req.house,
+        house: req.house,
         ...req.body,
         assignedTo: req.user._id
     });
@@ -20,7 +20,7 @@ router.post('/tasks', auth, async (req, res) => {
 router.get('/tasks/house', auth, async (req, res) => {
     try {
         const tasks = await Task.find({
-            owner: req.house._id,
+            house: req.house._id,
         });
         res.send(tasks);
     } catch (err) {

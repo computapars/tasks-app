@@ -16,7 +16,7 @@ const tasksSchema = new mongoose.Schema({
         required: true,
         ref: 'User'
     },
-    owner: {
+    house: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'House'
