@@ -6,11 +6,7 @@ const auth = require ('../middleware/auth');
 router.post('/house', auth, async (req, res) => {
     try {
         const house = new House({
-            members: {
-                member: {
-                    ...req.user,
-                },
-            },
+            members: req.user.toObject(),
             ...req.body
         });
         req.user.house = house;
@@ -28,17 +24,13 @@ router.post('/house', auth, async (req, res) => {
 router.patch('/house', auth, async (req, res) => {
     try {
         const house = await House.findOne({ name: req.body.name});
-
-        house.members = house.members.concat({
-            member: {
-                ...req.user,
-            }
-        });
+        house.members = house.members.concat(req.user.toObject());
         req.user.house = house;
         await house.save();
         await req.user.save();
         res.status(201).send(house);
     } catch (err) {
+        console.log(err)
         res.status(400).send(err);
     }
 });

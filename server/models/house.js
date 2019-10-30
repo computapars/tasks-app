@@ -9,11 +9,9 @@ const houseSchema = new mongoose.Schema({
         unique: true,
     },
     members: [{
-        member: {
-            type: mongoose.Schema.Types.ObjectId,
-            required: true,
-            ref: 'User',
-        },
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User',
     }]
 });
 
