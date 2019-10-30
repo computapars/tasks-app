@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Task = './task';
 
 const houseSchema = new mongoose.Schema({
+    _id: mongoose.Schema.Types.ObjectId,
     name: {
         type: String,
         required: [true, 'why no name?'],
@@ -10,7 +11,6 @@ const houseSchema = new mongoose.Schema({
     },
     members: [{
         type: mongoose.Schema.Types.ObjectId,
-        required: true,
         ref: 'User',
     }]
 });

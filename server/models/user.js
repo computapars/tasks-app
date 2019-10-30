@@ -50,7 +50,6 @@ const userSchema = new mongoose.Schema({
     }],
     house: {
         type: mongoose.Schema.Types.ObjectId,
-        required: false,
         ref: 'House',
     }
 });
