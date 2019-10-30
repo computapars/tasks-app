@@ -22,6 +22,17 @@ router.post('/house', auth, async (req, res) => {
     }
 });
 
+router.get('/house/members', auth, async (req, res) => {
+    // would be cool to populate the house with its members
+    // so when you call this to make an option for folks to assign to
+    try {
+        console.log(req.house.members)
+        res.send()
+    } catch (err) {
+        res.status(400).send();
+    }
+})
+
 // delete the house
 // rename the house
 // add more members to the house

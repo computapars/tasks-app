@@ -11,6 +11,10 @@ const tasksSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    rotate: {
+        type: Boolean,
+        default: false,
+    },
     assignedTo: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
