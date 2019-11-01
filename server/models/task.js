@@ -25,6 +25,8 @@ const tasksSchema = new mongoose.Schema({
         required: true,
         ref: 'House'
     },
+}, {
+    timestamps: true,
 });
 
 
