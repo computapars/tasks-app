@@ -29,15 +29,20 @@ router.get('/tasks/house', auth, async (req, res) => {
     }
 });
 
+// get/tasks/?completed=false
 router.get('/tasks', auth, async (req, res) => {
+    // TODO: setup api with query params to return a completed vs not completed value
+    // TODO: setup pagination?
+    // TODO: setup captcha?
+    // TODO: setup sortby
+    const isCompleted = req.query.completed === 'true'
     try {
         const tasks = await Task.find({
             assignedTo: req.user._id,
-            completed: false,
+            completed: isCompleted,
         });
         res.send(tasks);
     } catch (err) {
-        console.log(err)
         res.status(500).send();
     }
 });
