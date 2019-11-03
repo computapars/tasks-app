@@ -3,9 +3,9 @@ const bodyParser = require('body-parser');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-const userRouter = require('./routers/user');
-const taskRouter = require('./routers/task');
-const houseRouter = require('./routers/house');
+const userRouter = require('./controllers/user');
+const taskRouter = require('./controllers/task');
+const houseRouter = require('./controllers/house');
 
 // Runs mongoose db
 require('./db/mongoose');

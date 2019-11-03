@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
-const Task = './task';
 
-const houseSchema = new mongoose.Schema({
+const schema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, 'why no name?'],
@@ -17,13 +16,4 @@ const houseSchema = new mongoose.Schema({
     }]
 });
 
-
-houseSchema.pre('remove', async function (next) {
-    await Task.deleteMany({
-        owner: this._id,
-    })
-    next();
-});
-
-const House = mongoose.model('House', houseSchema);
-module.exports = House;
+module.exports = { schema }

@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const House = require('../models/house')
+
 const auth = async (req, res, next) => {
     try {
         // we send tokens in our headers via key, value (Authorization, Bearer ${token})

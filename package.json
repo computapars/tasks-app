@@ -1,11 +1,11 @@
 {
-  "name": "tasks-app",
+  "name": "tasksify-dev-api",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node server/index.js",
-    "dev": "concurrently \"nodemon ./server/index.js\" \"yarn --cwd ./client install\" \"yarn --cwd ./client start\"",
+    "dev": "concurrently \"yarn install\" \"nodemon ./index.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -16,9 +16,9 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/computapars/tasks-app/issues"
+    "url": "https://github.com/computapars/taskify-dev-api/issues"
   },
-  "homepage": "https://github.com/computapars/tasks-app#readme",
+  "homepage": "https://github.com/computapars/taskify-dev-api#readme",
   "dependencies": {
     "@sendgrid/mail": "^6.4.0",
     "axios": "^0.19.0",

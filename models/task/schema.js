@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
-// when you save a task you have to get the group you are
-// in and it will save as owner
-const tasksSchema = new mongoose.Schema({
+const schema = new mongoose.Schema({
     description: {
         type: String,
         required: true,
@@ -29,6 +27,4 @@ const tasksSchema = new mongoose.Schema({
     timestamps: true,
 });
 
-
-const Task = mongoose.model('Task', tasksSchema)
-module.exports = Task;
+module.exports = { schema }

@@ -2,7 +2,7 @@ const express = require('express');
 const router = new express.Router();
 const House = require('../models/house');
 const auth = require ('../middleware/auth');
-const { inviteToHouseEmail } = require('../emails/account');
+const { inviteToHouseEmail } = require('../utils/email');
 
 router.post('/house', auth, async (req, res) => {
     try {
