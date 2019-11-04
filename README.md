@@ -1,8 +1,6 @@
 
 
- - figure out how to rename app
  - figure out httpstatuses
- - how can i use populate better?
 
 ** Use Cases
 Users - have houses - that's optional
