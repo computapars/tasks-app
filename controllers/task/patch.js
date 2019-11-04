@@ -1,4 +1,4 @@
-const patchTaskById = ({ Task }, { config }) => async (req, res) => {
+const patchTaskById = ({ Task }) => async (req, res) => {
     const _id = req.params.id;
     const update = Object.keys(req.body);
     const allowedUpdates = ['description', 'completed'];

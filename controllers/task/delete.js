@@ -1,4 +1,4 @@
-const deleteTaskById = ({ Task }, { config }) => async (req, res) => {
+const deleteTaskById = ({ Task }) => async (req, res) => {
     const _id = req.params.id;
     try {
         const task = await Task.findByIdAndDelete({

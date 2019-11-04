@@ -1,4 +1,4 @@
-const postUser = ({ User }, { config }) => async (req, res) => {
+const postUser = ({ User }) => async (req, res) => {
     const user = new User(req.body);
     try {
         await user.save();
@@ -9,7 +9,7 @@ const postUser = ({ User }, { config }) => async (req, res) => {
     }
 };
 
-const login = ({ User }, { config }) => async (req, res) => {
+const login = ({ User }) => async (req, res) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password);
         const token = await user.generateAuthToken();
@@ -19,7 +19,7 @@ const login = ({ User }, { config }) => async (req, res) => {
     }
 };
 
-const logout = ({ User }, { config }) => async (req, res) => {
+const logout = ({ User }) => async (req, res) => {
     try {
         req.user.tokens = req.user.tokens.filter(item => item.token !== req.token);
         await req.user.save();
@@ -30,7 +30,7 @@ const logout = ({ User }, { config }) => async (req, res) => {
 };
 
 
-const logoutAll = ({ User }, { config }) => async (req, res) => {
+const logoutAll = ({ User }) => async (req, res) => {
     try {
         req.user.tokens = [];
         await req.user.save();

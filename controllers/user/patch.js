@@ -1,5 +1,5 @@
 
-const patchLoggedInUser = ({ User }, { config }) => async (req, res) => {
+const patchLoggedInUser = ({ User }) => async (req, res) => {
     const update = Object.keys(req.body);
     const allowedUpdates = ['name', 'email', 'age', 'password'];
     const isValidUpdate = update.every(update => allowedUpdates.includes(update));

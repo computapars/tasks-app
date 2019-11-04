@@ -6,9 +6,9 @@ const { patchHouse } = require('./patch');
 const { postHouse } = require('./post');
 
 const houseApi = (models, auth) => {
-    router.get('/members', getMembers(models, auth) )
-    router.patch('/', patchHouse(models, auth));
-    router.post('/', postHouse(models, auth));
+    router.get('/members', auth, getMembers(models) )
+    router.patch('/', auth, patchHouse(models));
+    router.post('/', auth, postHouse(models));
     return router;
 }
 

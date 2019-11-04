@@ -1,4 +1,4 @@
-const patchHouse = ({ House }, { config }) => async (req, res) => {
+const patchHouse = ({ House }) => async (req, res) => {
     try {
         const house = await House.findOne({ name: req.body.name});
         // TODO make sure you are only adding members to a house

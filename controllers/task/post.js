@@ -1,4 +1,4 @@
-const postTask = ({ Task }, { config }) => async (req, res) => {
+const postTask = ({ Task }) => async (req, res) => {
     const task = new Task({
         house: req.house,
         ...req.body,

@@ -1,16 +1,15 @@
-const getTasksByHouse = ({ Task }, { config }) => async (req, res) => {
+const getTasksByHouse = ({ Task }) => async (req, res) => {
     try {
         const tasks = await Task.find({
             house: req.house._id,
         });
         res.send(tasks);
     } catch (err) {
-        console.log(err)
         res.status(500).send();
     }
 };
 
-const getTasks = ({ Task }, { config }) => async (req, res) => {
+const getTasks = ({ Task }) => async (req, res) => {
     // get/tasks/?completed=false
     // TODO: setup api with query params to return a completed vs not completed value
     // TODO: setup pagination?
@@ -28,8 +27,7 @@ const getTasks = ({ Task }, { config }) => async (req, res) => {
     }
 };
 
-// :id is a route parameter
-const getTaskById = ({ Task }, { config }) => async (req, res) => {
+const getTaskById = ({ Task }) => async (req, res) => {
     const _id = req.params.id;
     try {
         const task = await Task.findOne({

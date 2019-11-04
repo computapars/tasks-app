@@ -13,14 +13,14 @@ const {
 
 
 const userApi = (models, auth) => {
-    router.post('/', postUser(models, auth));
-    router.post('/login', login(models, auth));
-    router.post('/logout', logout(models, auth));
-    router.post('/logout-all', logoutAll(models, auth));
+    router.post('/', postUser(models));
+    router.post('/login', login(models));
+    router.post('/logout', auth, logout(models));
+    router.post('/logout-all', auth, logoutAll(models));
     
-    router.get('/me', getLoggedInUser(models, auth));
-    router.patch('/me', patchLoggedInUser(models, auth));
-    router.delete('/me', deleteLoggedInUser(models, auth));
+    router.get('/me', auth, getLoggedInUser(models));
+    router.patch('/me', auth, patchLoggedInUser(models));
+    router.delete('/me', auth, deleteLoggedInUser(models));
     return router;
 }
 
