@@ -1,4 +1,4 @@
-const patchTaskById = ({ Task }) => async (req, res) => {
+const patchTaskById = ({ Task, User }) => async (req, res) => {
     const _id = req.params.id;
     const update = Object.keys(req.body);
     const allowedUpdates = ['description', 'completed', 'assignedTo'];
@@ -7,6 +7,13 @@ const patchTaskById = ({ Task }) => async (req, res) => {
         return res.status(400).send({ error: "invalid update"});
     }
     try {
+        const isUserValid = await User.findOne({
+            _id: req.body.assignedTo,
+            house: req.house,
+        })
+        if(!isUserValid){
+            throw new Error("Can't update this task since its not yours")
+        }
         const task = await Task.findOne({_id, assignedTo: req.user._id });
         // for assignign to someone else will have to have the userId of someone else?
         update.forEach((update) => task[update] = req.body[update]);
