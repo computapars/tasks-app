@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema({
+    _id: mongoose.Schema.Types.ObjectId,
     name: {
         type: String,
         required: [true, 'why no name?'],
@@ -11,7 +12,6 @@ const schema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'User',
-
     }]
 });
 
