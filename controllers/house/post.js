@@ -1,10 +1,12 @@
 const postHouse = ({ House }) =>  async (req, res) => {
     try {
+        if (req.user.house) {
+            // pre-existing house
+            throw new Error("Already have a house")
+        }
         const house = new House({
             members: {
-                member: {
-                    ...req.user,
-                },
+                ...req.user,
             },
             ...req.body
         });

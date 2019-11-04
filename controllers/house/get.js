@@ -1,9 +1,9 @@
 const getMembers = ({ House }) =>  async (req, res) => {
-    // TODO: getMembers of a house only I belong to
-    // would be cool to populate the house with its members
-    // so when you call this to make an option for folks to assign to
+    const house = await House.findOne({ 
+        members: req.user._id,
+    });
     try {
-        res.send()
+        res.send(house.members)
     } catch (err) {
         res.status(400).send();
     }
