@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const User= require('./../user')
+
 const schema = new mongoose.Schema({
     description: {
         type: String,
@@ -26,5 +28,13 @@ const schema = new mongoose.Schema({
 }, {
     timestamps: true,
 });
+
+schema.statics.isValidUser = async (assignedTo, house) => {
+    const isValidUser = await User.findOne({
+        _id: assignedTo,
+        house: house,
+    });
+    return isValidUser;
+};
 
 module.exports = { schema }
