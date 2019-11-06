@@ -16,6 +16,8 @@ const patchTaskById = ({ Task, User }) => async (req, res) => {
         }
         if (update.includes("assignedTo")) {
             await Task.isValidUser(User, req.body.assignedTo, req.house);
+        } else if (update.includes("completed") && task.rotate) {
+            // someone is completing an auto rotate and we have to assign it to the next user
         }
         update.forEach((update) => task[update] = req.body[update]); 
         await task.save();

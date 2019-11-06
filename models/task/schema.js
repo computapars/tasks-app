@@ -29,7 +29,7 @@ const schema = new mongoose.Schema({
 });
 
 schema.statics.isValidUser = async (User, assignedTo, house) => {
-    
+    // todo, can i just pass in theuser model through req.user?
     const isValidUser = await User.findOne({
         _id: assignedTo,
         house: house,
@@ -38,6 +38,10 @@ schema.statics.isValidUser = async (User, assignedTo, house) => {
         return false;
     }
     return isValidUser;
+};
+
+schema.statics.getNextHouseMember = async (assignedTo, house) => {
+    
 };
 
 module.exports = { schema }
