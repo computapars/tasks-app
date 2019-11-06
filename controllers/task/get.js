@@ -2,7 +2,7 @@ const getTasksByHouse = ({ Task }) => async (req, res) => {
     try {
         const tasks = await Task.find({
             house: req.house._id,
-        })
+        }).populate('assignedTo');
         res.send(tasks);
     } catch (err) {
         res.status(500).send();
