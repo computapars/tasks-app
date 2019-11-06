@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const User= require('./../user')
 
 const schema = new mongoose.Schema({
     description: {
@@ -29,11 +28,15 @@ const schema = new mongoose.Schema({
     timestamps: true,
 });
 
-schema.statics.isValidUser = async (assignedTo, house) => {
+schema.statics.isValidUser = async (User, assignedTo, house) => {
+    
     const isValidUser = await User.findOne({
         _id: assignedTo,
         house: house,
     });
+    if (!isValidUser){
+        return false;
+    }
     return isValidUser;
 };
 

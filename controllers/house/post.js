@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const postHouse = ({ House }) =>  async (req, res) => {
     try {
         if (req.user.house) {
@@ -5,6 +7,7 @@ const postHouse = ({ House }) =>  async (req, res) => {
             throw new Error("Already have a house")
         }
         const house = new House({
+            _id: new mongoose.mongo.ObjectId(),
             members: {
                 ...req.user,
             },

@@ -14,8 +14,7 @@ const patchHouse = ({ House }) => async (req, res) => {
         // inviteToHouseEmail()
         res.status(201).send(house);
     } catch (err) {
-        console.log(err)
-        res.status(400).send(err);
+        res.status(400).send({error: "Cannot save this house"});
     }
 };
 
