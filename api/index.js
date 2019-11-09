@@ -20,8 +20,6 @@ const models = {
 
 const routersInit = () => {
     const router = express();
-    // registering my api points
-    // Sets up app to parse json
     router.use(bodyParser.json())
     router.use('/users', userApi(models, auth));
     router.use('/tasks', taskApi(models, auth));
