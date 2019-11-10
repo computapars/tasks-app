@@ -1,6 +1,6 @@
 const postTask = ({ Task, User }) => async (req, res) => {
     try {
-       await Task.isValidUser(User, req.body.assignedTo, req.house);
+       await Task.isAHouseMember(User, req.body.assignedTo, req.house);
         const task = new Task({
             house: req.house,
             ...req.body,

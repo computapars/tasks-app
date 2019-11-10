@@ -14,8 +14,8 @@ const patchTaskById = ({ Task, User, House }) => async (req, res) => {
         if (!task) {
             return res.status(400).send();
         }
-        const isValidUser = await Task.isValidUser(User, req.body.assignedTo, req.house);
-        if (isValidUser) {
+        const isAHouseMember = await Task.isAHouseMember(User, req.body.assignedTo, req.house);
+        if (isAHouseMember) {
             const userCompletedAutoRotate = update.includes("completed") && task.rotate;
             const assignedToUser = req.user._id == req.body.assignedTo;
             if (userCompletedAutoRotate && assignedToUser ) {

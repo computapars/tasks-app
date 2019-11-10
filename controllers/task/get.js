@@ -10,11 +10,6 @@ const getTasksByHouse = ({ Task }) => async (req, res) => {
 };
 
 const getTasks = ({ Task }) => async (req, res) => {
-    // get/tasks/?completed=false
-    // TODO: setup api with query params to return a completed vs not completed value
-    // TODO: setup pagination?
-    // TODO: setup captcha?
-    // TODO: setup sortby
     const isCompleted = req.query.completed === 'true'
     try {
         const tasks = await Task.find({

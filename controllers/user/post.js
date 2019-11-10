@@ -1,8 +1,11 @@
+const { welcomeEmail } = require('./../../utils/email');
+
 const postUser = ({ User }) => async (req, res) => {
     const user = new User(req.body);
     try {
         await user.save();
         const token = await user.generateAuthToken();
+        welcomeEmail(user.email, user.name);
         res.status(201).send({ user, token });
     } catch (err) {
         res.status(400).send(err);
