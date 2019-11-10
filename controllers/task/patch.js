@@ -1,5 +1,3 @@
-const mongoose = require('mongoose');
-
 const patchTaskById = ({ Task, User, House }) => async (req, res) => {
     const _id = req.params.id;
     const update = Object.keys(req.body);
@@ -18,8 +16,12 @@ const patchTaskById = ({ Task, User, House }) => async (req, res) => {
         }
         const isValidUser = await Task.isValidUser(User, req.body.assignedTo, req.house);
         if (isValidUser) {
-            if (update.includes("completed") && task.rotate) {
-                // someone is completing an auto rotate and we have to assign it to the next user
+            const userCompletedAutoRotate = update.includes("completed") && task.rotate;
+            const assignedToUser = req.user._id == req.body.assignedTo;
+            if (userCompletedAutoRotate && assignedToUser ) {
+                /*  Someone is completing an auto rotate and we have to
+                    assign it to the next user or start the loop over
+                */
                 const nextHouseMember = await Task.getNextHouseMember(House, req.user._id, req.house);
                 req.body.assignedTo = nextHouseMember;
             }
@@ -28,7 +30,6 @@ const patchTaskById = ({ Task, User, House }) => async (req, res) => {
             res.send(task);
         }
     } catch (err) {
-        console.log(err)
         res.status(400).send({error: "Cannot update task"});
     }
 };
@@ -36,5 +37,4 @@ const patchTaskById = ({ Task, User, House }) => async (req, res) => {
 
 module.exports = { 
     patchTaskById,
-    // completeTask,
 }

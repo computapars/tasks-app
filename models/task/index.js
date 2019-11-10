@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const { schema } = require('./schema');
 
 schema.statics.isValidUser = async (User, assignedTo, house) => {
-    // todo, can i just pass in the user model through req.user?
     const isValidUser = await User.findOne({
         _id: assignedTo,
         house: house,
@@ -20,13 +19,10 @@ schema.statics.getNextHouseMember = async (House, assignedTo, house) => {
         path: 'members',
     });
     
-    const currIndex = house.members.indexOf(assignedTo);
     if (matchingHouse.members.length >= 1){
-        // negative indexes in javascript don't work, https://medium.com/uncaught-exception/javascript-array-negative-index-using-proxies-ed096dc84416
-        console.log(currIndex - 1)
-        console.log(matchingHouse.members[currIndex])
-        // if its the last item in the array go the beginning, otherwsie do the nxt
-        return matchingHouse.members[currIndex - 1]._id;
+        const currIndex = house.members.indexOf(assignedTo);
+        const nextIndexOrFirst = (currIndex + 1) % house.members.length;
+        return matchingHouse.members[nextIndexOrFirst]._id;
     }
     return assignedTo;
 };
