@@ -28,16 +28,4 @@ const schema = new mongoose.Schema({
     timestamps: true,
 });
 
-schema.statics.isValidUser = async (User, assignedTo, house) => {
-    
-    const isValidUser = await User.findOne({
-        _id: assignedTo,
-        house: house,
-    });
-    if (!isValidUser){
-        return false;
-    }
-    return isValidUser;
-};
-
 module.exports = { schema }
