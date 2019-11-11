@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-const connectionUrl = 'mongodb://127.0.0.1:27017';
-const databaseName = 'taskify-dev';
+const mongoDbUri = proces.env.MONGODB_URI;
+const mongoDbName = process.env.MONGODB_NAME
 
-mongoose.connect(`${connectionUrl}/${databaseName}`, {
+mongoose.connect(`${mongoDbUri}/${mongoDbName}`, {
     useNewUrlParser:true,
     useCreateIndex: true,
     useUnifiedTopology: true,

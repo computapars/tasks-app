@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const signature = process.env.JWT_SECRET;
 const Task = require('./../task')
 const { schema } = require('./schema');
 
@@ -35,7 +36,7 @@ schema.statics.findByCredentials = async (email, password) => {
 schema.methods.generateAuthToken = async function () {
     const token = jwt.sign({
         _id: this._id.toString(),
-    }, 'somesignature');
+    }, signature);
     this.tokens = this.tokens.concat({ token });
     await this.save();
     return token;
