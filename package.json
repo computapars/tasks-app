@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server/index.js",
-    "dev": "env-cmd ./.env nodemon ./index.js",
-    "tests": "env-cmd ./test.env jest --watch"
+    "start": "node ./index.js",
+    "dev": "env-cmd nodemon ./index.js",
+    "tests": "env-cmd -f ./test.env jest --watch"
   },
   "repository": {
     "type": "git",
