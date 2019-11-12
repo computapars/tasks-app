@@ -22,18 +22,18 @@ const login = ({ User }) => async (req, res) => {
     }
 };
 
-const logout = ({ User }) => async (req, res) => {
+const logout = () => async (req, res) => {
     try {
         req.user.tokens = req.user.tokens.filter(item => item.token !== req.token);
         await req.user.save();
-        res.send(req.user);
+        res.status(200).send(req.user);
     } catch (err) {
         res.status(500).send();
     }
 };
 
 
-const logoutAll = ({ User }) => async (req, res) => {
+const logoutAll = () => async (req, res) => {
     try {
         req.user.tokens = [];
         await req.user.save();

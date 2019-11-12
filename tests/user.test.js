@@ -1,25 +1,9 @@
 const request = require('supertest');
 const app = require('../app');
 const User = require('../models/user');
-const jwt = require('jsonwebtoken');
-const mongoose = require('mongoose');
+const { userOne, setupUserDb } = require('./fixtures/db');
 
-const userOneId = new mongoose.Types.ObjectId();
-
-const userOne = {
-    _id: userOneId,
-    name: "Foo",
-    email: "foo@example.com",
-    password: "foofoofoo",
-    tokens: [{
-        token: jwt.sign({ _id: userOneId}, process.env.JWT_SECRET)
-    }]
-};
-
-beforeEach(async () => {
-    await User.deleteMany();
-    await new User(userOne).save();
-});
+beforeEach(setupUserDb);
 
 test('Signup new user', async () => {
     const response = await request(app)
@@ -55,7 +39,7 @@ test('Should login existing user', async () => {
     const response = await request(app).post('/users/login')
             .send(userOne)
             .expect(200);
-    const user = await User.findById(userOneId);
+    const user = await User.findById(userOne._id);
     expect(response.body.token).toBe(user.tokens[1].token);
 });
 
@@ -69,7 +53,7 @@ test('Should not get profile for unathenticated user', async () => {
 test('Should get profile for user', async () => {
     await request(app)
             .get('/users/me')
-            .set('Authorization', `Bearer ${userOne.tokens[0].token}` )
+            .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
             .send()
             .expect(200);
 });
@@ -77,7 +61,7 @@ test('Should get profile for user', async () => {
 test('Should delete user', async () => {
     const response = await request(app)
             .delete('/users/me')
-            .set('Authorization', `Bearer ${userOne.tokens[0].token}` )
+            .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
             .send()
             .expect(200);
     const user = await User.findById(response._id);
@@ -91,3 +75,22 @@ test('Should not delete unathenticated user', async () => {
             .expect(401);
 });
 
+test('Should update valid user fields', async () => {
+    const response = await request(app)
+            .patch('/users/me')
+            .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+            .send({
+                name: "Bar"
+            }).expect(200)
+    const user = await User.findById(response.body._id);
+    expect(user.name).toBe("Bar")
+});
+
+test('Should not update invalid user fields', async () => {
+    await request(app)
+            .patch('/users/me')
+            .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+            .send({
+                location: '',
+            }).expect(400);
+});
