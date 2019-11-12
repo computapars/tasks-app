@@ -1,4 +1,4 @@
-const { welcomeEmail } = require('./../../utils/email');
+const { welcomeEmail } = require('./../../utils/mail');
 
 const postUser = ({ User }) => async (req, res) => {
     const user = new User(req.body);

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { inviteToHouseEmail } = require('./../../utils/email');
+const { inviteToHouseEmail } = require('./../../utils/mail');
 const validator = require('validator');
 
 const postHouse = ({ House }) => async (req, res) => {

@@ -16,20 +16,30 @@ const userOne = {
     }]
 };
 
-beforeEach(async() => {
+beforeEach(async () => {
     await User.deleteMany();
     await new User(userOne).save();
 });
 
 test('Signup new user', async () => {
-    await request(app)
+    const response = await request(app)
             .post('/users')
             .send({
                 name: 'Marlene',
                 email: 'marlenebowles@gmail.com',
                 password: 'marlenes'
             })
-            .expect(201)
+            .expect(201);
+    const user = await User.findById(response.body.user._id);
+    expect(user).not.toBeNull();
+    expect(response.body).toMatchObject({
+        user: {
+            name: 'Marlene',
+            email: 'marlenebowles@gmail.com',
+        },
+        token: user.tokens[0].token
+    });
+    expect(user.password).not.toBe('marlenes');
 });
 
 test('Should not login nonexistant user', async () => {
@@ -38,13 +48,22 @@ test('Should not login nonexistant user', async () => {
                 email: userOne.email,
                 password: 'barbarbar'
             })
-            .expect(400)
+            .expect(400);
 });
 
 test('Should login existing user', async () => {
-    await request(app).post('/users/login')
+    const response = await request(app).post('/users/login')
             .send(userOne)
-            .expect(200)
+            .expect(200);
+    const user = await User.findById(userOneId);
+    expect(response.body.token).toBe(user.tokens[1].token);
+});
+
+test('Should not get profile for unathenticated user', async () => {
+    await request(app)
+        .get('/users/me')
+        .send()
+        .expect(401);
 });
 
 test('Should get profile for user', async () => {
@@ -52,27 +71,23 @@ test('Should get profile for user', async () => {
             .get('/users/me')
             .set('Authorization', `Bearer ${userOne.tokens[0].token}` )
             .send()
-            .expect(200)
+            .expect(200);
 });
 
 test('Should delete user', async () => {
-    await request(app)
+    const response = await request(app)
             .delete('/users/me')
             .set('Authorization', `Bearer ${userOne.tokens[0].token}` )
             .send()
-            .expect(200)
+            .expect(200);
+    const user = await User.findById(response._id);
+    expect(user).toBeNull();
 });
 
 test('Should not delete unathenticated user', async () => {
     await request(app)
             .delete('/users/me')
             .send()
-            .expect(401)
+            .expect(401);
 });
 
-test('Should not get profile for unathenticated user', async () => {
-    await request(app)
-            .get('/users/me')
-            .send()
-            .expect(401)
-});
