@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const objectId = mongoose.Types.ObjectId;
 
-const getMembers = ({ House }) =>  async (req, res) => {
+const getHouseMembers = ({ House }) =>  async (req, res) => {
     try {
         const house = await House.findOne({ 
             members: req.user._id,
@@ -15,7 +15,7 @@ const getMembers = ({ House }) =>  async (req, res) => {
     }
 }
 
-const signupMembers = ({ House }) =>  async (req, res) => {
+const signupHouseMembers = ({ House }) =>  async (req, res) => {
     const { houseId, houseName, userName } = req.query;
     try {
         const _id = new objectId(houseId.trim())
@@ -33,6 +33,6 @@ const signupMembers = ({ House }) =>  async (req, res) => {
 
 
 module.exports = {
-    getMembers,
-    signupMembers
+    getHouseMembers,
+    signupHouseMembers
 };
