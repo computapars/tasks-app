@@ -1,6 +1,5 @@
 const patchHouseWithNewMember = ({ House }) => async (req, res) => {
     try {
-        
         const house = await House.findOne({ 
             name: req.body.name,
         });
@@ -10,7 +9,10 @@ const patchHouseWithNewMember = ({ House }) => async (req, res) => {
         await req.user.save();
         res.status(201).send(house);
     } catch (err) {
-        res.status(400).send({error: "Cannot update this house with new members."});
+        res.status(400).send({
+            "message" : "Cannot update this house with new members.",
+            "success" : false,
+        });
     }
 };
 

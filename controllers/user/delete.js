@@ -3,7 +3,10 @@ const deleteLoggedInUser = () => async (req, res) => {
         await req.user.remove();
         res.send(req.user);
     } catch(err) {
-        res.status(500).send()
+        res.status(500).send({
+            "message" : "Cannot remove user.",
+            "success" : false,
+        })
     }
 };
 

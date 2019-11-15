@@ -6,11 +6,17 @@ const deleteTaskById = ({ Task }) => async (req, res) => {
             assignedTo: req.user._id,
         });
         if (!task) {
-            return res.status(400).send({error: 'Task doesn\'t exist.'});
+            return res.status(400).send({
+                "message" : "Task does not exist.",
+                "success" : false,
+            });
         }
         res.send(task);
     } catch(err) {
-        res.status(400).send()
+        res.status(400).send({
+            "message" : "Task was not deleted.",
+            "success" : false,
+        })
     }
 };
 

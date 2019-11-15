@@ -1,13 +1,17 @@
 const mongoose = require('mongoose');
 const objectId = mongoose.Types.ObjectId;
+
 const getMembers = ({ House }) =>  async (req, res) => {
-    const house = await House.findOne({ 
-        members: req.user._id,
-    }).populate('members');
     try {
+        const house = await House.findOne({ 
+            members: req.user._id,
+        }).populate('members');
         res.send(house.members)
     } catch (err) {
-        res.status(400).send();
+        res.status(400).send({
+            "message" : "No house found with you as a member",
+            "success" : false,
+        });
     }
 }
 
@@ -20,7 +24,10 @@ const signupMembers = ({ House }) =>  async (req, res) => {
         })
         res.send({ houseName, userName})
     } catch (err) {
-        res.status(400).send({error : 'No Members were invited.'});
+        res.status(400).send({
+            "message" : "No members could be invited.",
+            "success" : false,
+        });
     }
 }
 
