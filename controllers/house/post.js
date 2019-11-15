@@ -5,7 +5,7 @@ const validator = require('validator');
 const postHouse = ({ House }) => async (req, res) => {
     if (req.user.house) {	
         // pre-existing house	
-        throw new Error("Already have a house")	
+        return res.status(400).send();
     }
     try {
         const house = new House({

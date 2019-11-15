@@ -72,6 +72,15 @@ describe('house been added and saved to user profile', () => {
             .send()
             .expect(400)
     });
+    test('Should not let users create more than one house', async () => {
+        await request(app)
+            .post('/house')
+            .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+            .send({
+                name: "Bar house"
+            })
+            .expect(400);
+    });
 })
 
 describe('house and multiple users have been added', () => {

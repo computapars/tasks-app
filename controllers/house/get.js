@@ -7,7 +7,6 @@ const getMembers = ({ House }) =>  async (req, res) => {
     try {
         res.send(house.members)
     } catch (err) {
-        console.log(err)
         res.status(400).send();
     }
 }
@@ -21,7 +20,7 @@ const signupMembers = ({ House }) =>  async (req, res) => {
         })
         res.send({ houseName, userName})
     } catch (err) {
-        res.status(400).send({error : 'No House'});
+        res.status(400).send({error : 'No Members were invited.'});
     }
 }
 
