@@ -1,5 +1,5 @@
 {
-    "name": "yourturn-dev-api",
+    "name": "yourturn.dev-api",
     "version": 2,
     "builds": [
       { "src": "index.js", "use": "@now/node" },
@@ -7,22 +7,32 @@
       { "src": "lambdas/task.js", "use": "@now/node" },
       { "src": "lambdas/house.js", "use": "@now/node" }
     ],
+    "alias": ["yourturn.dev", "yourturn"],
     "env": {
       "MONGODB_URI": "@my-mongodb-uri"
     },
     "routes": [
       {
         "src": "/users(.*)",
+        "headers": {
+          "Access-Control-Allow-Origin": "*"
+        },
         "dest": "lambdas/user.js",
-        "methods": ["GET", "POST","PATCH", "DELETE"]
+        "methods": ["GET", "POST", "PATCH", "DELETE"]
       },
       {
         "src": "/tasks(.*)",
+        "headers": {
+          "Access-Control-Allow-Origin": "*"
+        },
         "dest": "lambdas/task.js",
         "methods": ["GET", "POST","PATCH", "DELETE"]
       },
       {
         "src": "/house(.*)",
+        "headers": {
+          "Access-Control-Allow-Origin": "*"
+        },
         "dest": "lambdas/house.js",
         "methods": ["GET", "POST","PATCH"]
       }
