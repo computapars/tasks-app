@@ -1,6 +1,6 @@
 # Introduction
 
-YourTurn API was built from the ground-up with MongoDb, Mongoose and Express.
+YourTurn API was built from the ground-up with MongoDb, Mongoose and Express. It's using Zeit for deployment and hosting. Each API endpoint is using a lambda serverless function to work with Zeit.
 
 ## Authorization
 
