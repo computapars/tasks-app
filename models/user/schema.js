@@ -4,14 +4,14 @@ const validator = require('validator');
 const schema = new mongoose.Schema({
     name: {
         type: String,
-        required: [true, 'why no name?'],
+        required: [true, 'You have to provide a name'],
         trim: true,
     },
     email: {
         minlength: 1,
         unique: true,
         type: String,
-        required: [true, 'You have to provide'],
+        required: [true, 'You have to provide an email address'],
         trim: true,
         lowercase: true,
         validate(value) {
@@ -19,15 +19,6 @@ const schema = new mongoose.Schema({
                 throw new Error('Email is invalid')
             }
         },
-    },
-    age: {
-        type: Number,
-        default: 0,
-        validate(value){
-            if(value < 0) {
-                throw new Error('Age must be positive')
-            }
-        }
     },
     password: {
         type: String,

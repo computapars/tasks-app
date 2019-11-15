@@ -1,4 +1,4 @@
-const getLoggedInUser = ({ User }) => async (req, res) => {
+const getLoggedInUser = () => async (req, res) => {
     res.send(req.user);
 };
 

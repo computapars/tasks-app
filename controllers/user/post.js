@@ -1,4 +1,4 @@
-const { welcomeEmail } = require('./../../utils/email');
+const { welcomeEmail } = require('./../../utils/mail');
 
 const postUser = ({ User }) => async (req, res) => {
     const user = new User(req.body);
@@ -16,24 +16,24 @@ const login = ({ User }) => async (req, res) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password);
         const token = await user.generateAuthToken();
-        res.send({ user, token});
+        res.status(200).send({ user, token});
     } catch (err) {
         res.status(400).send();
     }
 };
 
-const logout = ({ User }) => async (req, res) => {
+const logout = () => async (req, res) => {
     try {
         req.user.tokens = req.user.tokens.filter(item => item.token !== req.token);
         await req.user.save();
-        res.send(req.user);
+        res.status(200).send(req.user);
     } catch (err) {
         res.status(500).send();
     }
 };
 
 
-const logoutAll = ({ User }) => async (req, res) => {
+const logoutAll = () => async (req, res) => {
     try {
         req.user.tokens = [];
         await req.user.save();

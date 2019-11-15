@@ -5,7 +5,7 @@ const getTasksByHouse = ({ Task }) => async (req, res) => {
         }).populate('assignedTo');
         res.send(tasks);
     } catch (err) {
-        res.status(500).send();
+        res.status(400).send();
     }
 };
 
@@ -18,7 +18,7 @@ const getTasks = ({ Task }) => async (req, res) => {
         }).populate('assignedTo').populate('house');
         res.send(tasks);
     } catch (err) {
-        res.status(500).send();
+        res.status(400).send();
     }
 };
 
@@ -34,7 +34,7 @@ const getTaskById = ({ Task }) => async (req, res) => {
         }
         res.send(task);
     } catch (err) { 
-        res.status(500).send();
+        res.status(400).send();
     }
 };
 

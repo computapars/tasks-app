@@ -1,7 +1,7 @@
 const patchTaskById = ({ Task, User, House }) => async (req, res) => {
     const _id = req.params.id;
     const update = Object.keys(req.body);
-    const allowedUpdates = ['description', 'completed', 'assignedTo'];
+    const allowedUpdates = ['description', 'completed', 'assignedTo', 'rotate'];
     const isValidUpdate = update.every(update => allowedUpdates.includes(update));
     if (!isValidUpdate) {
         return res.status(400).send({ error: "invalid update"});

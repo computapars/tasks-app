@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
-const { inviteToHouseEmail } = require('./../../utils/email');
+const { inviteToHouseEmail } = require('./../../utils/mail');
 const validator = require('validator');
 
 const postHouse = ({ House }) => async (req, res) => {
+    if (req.user.house) {	
+        // pre-existing house	
+        return res.status(400).send();
+    }
     try {
-        if (req.user.house) {
-            // pre-existing house
-            throw new Error("Already have a house")
-        }
         const house = new House({
             _id: new mongoose.mongo.ObjectId(),
             members: {
@@ -28,12 +28,10 @@ const postHouse = ({ House }) => async (req, res) => {
 const inviteMembers = ({ User }) => async (req, res) => {
     try {
         const { email, name, message } = req.body;
-
-        const member = await User.findOne({ 
+        const member = await User.findById({ 
             _id: req.user._id,
             house: req.house._id,
         }).populate('house');
-
         const houseName = member.house.name;
         const houseId = member.house._id;
         const referral = member.name;

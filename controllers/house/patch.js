@@ -1,4 +1,4 @@
-const patchHouse = ({ House }) => async (req, res) => {
+const patchHouseWithNewMember = ({ House }) => async (req, res) => {
     try {
         
         const house = await House.findOne({ 
@@ -10,9 +10,9 @@ const patchHouse = ({ House }) => async (req, res) => {
         await req.user.save();
         res.status(201).send(house);
     } catch (err) {
-        res.status(400).send({error: "Cannot save this house"});
+        res.status(400).send({error: "Cannot update this house with new members."});
     }
 };
 
-module.exports = { patchHouse };
+module.exports = { patchHouseWithNewMember };
 
