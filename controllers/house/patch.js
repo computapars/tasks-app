@@ -1,4 +1,4 @@
-const patchHouse = ({ House }) => async (req, res) => {
+const patchHouseWithNewMember = ({ House }) => async (req, res) => {
     try {
         
         const house = await House.findOne({ 
@@ -14,5 +14,5 @@ const patchHouse = ({ House }) => async (req, res) => {
     }
 };
 
-module.exports = { patchHouse };
+module.exports = { patchHouseWithNewMember };
 

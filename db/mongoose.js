@@ -8,6 +8,7 @@ mongoose.connect(`${mongoDbUri}/${mongoDbName}`, {
     useUnifiedTopology: true,
 });
 
+mongoose.set('useFindAndModify', false);
 const db = mongoose.connection;
 
 module.exports = db;

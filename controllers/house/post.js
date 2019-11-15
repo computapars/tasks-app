@@ -3,6 +3,10 @@ const { inviteToHouseEmail } = require('./../../utils/mail');
 const validator = require('validator');
 
 const postHouse = ({ House }) => async (req, res) => {
+    if (req.user.house) {	
+        // pre-existing house	
+        throw new Error("Already have a house")	
+    }
     try {
         const house = new House({
             _id: new mongoose.mongo.ObjectId(),
