@@ -3,9 +3,9 @@ const auth = require ('../middleware/auth');
 const bodyParser = require('body-parser');
 
 // Controllers
-const userApi = require('../controllers/user');
-const taskApi = require('../controllers/task');
-const houseApi = require('../controllers/house');
+const userApi = require('./user');
+const taskApi = require('./task');
+const houseApi = require('./house');
 
 // Models
 const House = require('../models/house');
