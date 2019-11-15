@@ -1,16 +1,16 @@
 const express = require('express');
 const router = new express.Router();
 
-const { getMembers, signupMembers } = require('./get');
+const { getHouseMembers, signupHouseMembers } = require('./get');
 const { patchHouseWithNewMember } = require('./patch');
-const { postHouse, inviteMembers } = require('./post');
+const { postHouse, inviteMembersToHouse } = require('./post');
 
 const houseApi = (models, auth) => {
-    router.get('/members', auth, getMembers(models) )
-    router.get('/members/invite', signupMembers(models) )
-    router.post('/members/invite', auth, inviteMembers(models) )
-    router.patch('/', auth, patchHouseWithNewMember(models));
+    router.get('/members', auth, getHouseMembers(models) )
+    router.get('/members/invite', signupHouseMembers(models) )
     router.post('/', auth, postHouse(models));
+    router.post('/members/invite', auth, inviteMembersToHouse(models) )
+    router.patch('/', auth, patchHouseWithNewMember(models));
     return router;
 }
 

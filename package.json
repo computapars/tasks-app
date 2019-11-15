@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/computapars/tasks-app.git"
+    "url": "git+https://github.com/marlenebowles/yourturn.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/computapars/taskify-dev-api/issues"
+    "url": "https://github.com/marlenebowles/yourturn/issues"
   },
-  "homepage": "https://github.com/computapars/taskify-dev-api#readme",
+  "homepage": "https://github.com/marlenebowles/yourturn#readme",
   "dependencies": {
     "@sendgrid/mail": "^6.4.0",
     "axios": "^0.19.0",

@@ -31,7 +31,7 @@ const postHouse = ({ House }) => async (req, res) => {
     }
 };
 
-const inviteMembers = ({ User }) => async (req, res) => {
+const inviteMembersToHouse = ({ User }) => async (req, res) => {
     try {
         const { email, name, message } = req.body;
         const member = await User.findById({ 
@@ -71,5 +71,5 @@ const inviteMembers = ({ User }) => async (req, res) => {
 
 module.exports = { 
     postHouse,
-    inviteMembers,
+    inviteMembersToHouse,
 }
