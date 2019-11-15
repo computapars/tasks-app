@@ -1,7 +1,7 @@
 const deleteTaskById = ({ Task }) => async (req, res) => {
     const _id = req.params.id;
     try {
-        const task = await Task.findByIdAndDelete({
+        const task = await Task.findOneAndDelete({
             _id,
             assignedTo: req.user._id,
         });
@@ -10,7 +10,7 @@ const deleteTaskById = ({ Task }) => async (req, res) => {
         }
         res.send(task);
     } catch(err) {
-        res.status(500).send()
+        res.status(400).send()
     }
 };
 

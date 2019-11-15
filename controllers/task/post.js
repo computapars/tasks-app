@@ -8,7 +8,7 @@ const postTask = ({ Task, User }) => async (req, res) => {
         await task.save();
         res.status(201).send(task);
     } catch(err) {
-        res.status(404).send({error: "Can't save task."})
+        res.status(400).send({error: "Can't save task."})
     }
 }; 
 

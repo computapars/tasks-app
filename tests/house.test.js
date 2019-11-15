@@ -1,14 +1,15 @@
 const request = require('supertest');
 const app = require('../app');
+
 const {
     userOne,
     userTwo,
     userThree,
+    houseOne,
     inviteOne,
     setupHouseDb,
     setupHouseDbWithUser,
     setupHouseDbWithMultipleUsers,
-    houseOne,
 } = require('./fixtures/db');
 
 describe('house database is new', () => {
