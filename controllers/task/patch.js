@@ -4,7 +4,10 @@ const patchTaskById = ({ Task, User, House }) => async (req, res) => {
     const allowedUpdates = ['description', 'completed', 'assignedTo', 'rotate'];
     const isValidUpdate = update.every(update => allowedUpdates.includes(update));
     if (!isValidUpdate) {
-        return res.status(400).send({ error: "invalid update"});
+        return res.status(400).send({
+            "message" : "Invalid update",
+            "success" : false,
+        });
     }
     try {
         const task = await Task.findOne({
@@ -12,7 +15,10 @@ const patchTaskById = ({ Task, User, House }) => async (req, res) => {
             assignedTo: req.user._id
         });
         if (!task) {
-            return res.status(400).send();
+            return res.status(400).send({
+                "message" : "No task by this id assigned to user.",
+                "success" : false,
+            });
         }
         const isAHouseMember = await Task.isAHouseMember(User, req.body.assignedTo, req.house);
         if (isAHouseMember) {
@@ -30,7 +36,10 @@ const patchTaskById = ({ Task, User, House }) => async (req, res) => {
             res.send(task);
         }
     } catch (err) {
-        res.status(400).send({error: "Cannot update task"});
+        res.status(400).send({
+            "message" : "Cannot update task.",
+            "success" : false,
+        });
     }
 };
 

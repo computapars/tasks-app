@@ -20,7 +20,10 @@ const auth = async (req, res, next) => {
         req.house = house;
         next();
     } catch (err){
-        res.status(401).send({ error: 'Not able to authenticate'});
+        res.status(401).send({
+            "message" : "Not able to authenticate.",
+            "success" : false,
+        });
     }
     
 }

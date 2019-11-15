@@ -5,7 +5,10 @@ const getTasksByHouse = ({ Task }) => async (req, res) => {
         }).populate('assignedTo');
         res.send(tasks);
     } catch (err) {
-        res.status(400).send();
+        res.status(400).send({
+            "message" : "Can not return tasks.",
+            "success" : false,
+        });
     }
 };
 
@@ -18,7 +21,10 @@ const getTasks = ({ Task }) => async (req, res) => {
         }).populate('assignedTo').populate('house');
         res.send(tasks);
     } catch (err) {
-        res.status(400).send();
+        res.status(400).send({
+            "message" : "Cannot return tasks.",
+            "success" : false,
+        });
     }
 };
 
@@ -30,11 +36,17 @@ const getTaskById = ({ Task }) => async (req, res) => {
             assignedTo: req.user._id,
         });
         if (!task) {
-            return res.status(404).send();
+            return res.status(404).send({
+                "message" : "No Task with this id assigned to user.",
+                "success" : false,
+            });
         }
         res.send(task);
     } catch (err) { 
-        res.status(400).send();
+        res.status(400).send({
+            "message" : "Cannot get task.",
+            "success" : false,
+        });
     }
 };
 

@@ -8,7 +8,10 @@ const postUser = ({ User }) => async (req, res) => {
         welcomeEmail(user.email, user.name);
         res.status(201).send({ user, token });
     } catch (err) {
-        res.status(400).send(err);
+        res.status(400).send({
+            "message" : "User added.",
+            "success" : false,
+        });
     }
 };
 
@@ -18,7 +21,10 @@ const login = ({ User }) => async (req, res) => {
         const token = await user.generateAuthToken();
         res.status(200).send({ user, token});
     } catch (err) {
-        res.status(400).send();
+        res.status(400).send({
+            "message" : "User not logged out.",
+            "success" : false,
+        });
     }
 };
 
@@ -28,7 +34,10 @@ const logout = () => async (req, res) => {
         await req.user.save();
         res.status(200).send(req.user);
     } catch (err) {
-        res.status(500).send();
+        res.status(500).send({
+            "message" : "User not logged in.",
+            "success" : false,
+        });
     }
 };
 
@@ -39,7 +48,10 @@ const logoutAll = () => async (req, res) => {
         await req.user.save();
         res.send(req.user);
     } catch (err) {
-        res.status(500).send();
+        res.status(500).send({
+            "message" : "User not logged in.",
+            "success" : false,
+        });
     }
 };
 

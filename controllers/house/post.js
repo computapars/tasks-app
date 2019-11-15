@@ -5,7 +5,10 @@ const validator = require('validator');
 const postHouse = ({ House }) => async (req, res) => {
     if (req.user.house) {	
         // pre-existing house	
-        return res.status(400).send();
+        return res.status(400).send({
+            "message" : "Users are only allowed to belong to one house.",
+            "success" : false,
+        });
     }
     try {
         const house = new House({
@@ -21,7 +24,10 @@ const postHouse = ({ House }) => async (req, res) => {
         await req.user.save();
         res.status(201).send(house);
     } catch (err) {
-        res.status(400).send(err);
+        res.status(400).send({
+            "message" : "House was not created.",
+            "success" : false,
+        });
     }
 };
 
@@ -37,10 +43,16 @@ const inviteMembers = ({ User }) => async (req, res) => {
         const referral = member.name;
 
         if(!validator.isEmail(email)){
-            throw new Error('Email is invalid.')
+            return res.status(400).send({
+                "message" : "Email is not valid.",
+                "success" : false,
+            });
         }
         if(!validator.isByteLength(message, { max: 300 })){
-            throw new Error('Message lenght is too long.')
+            return res.status(400).send({
+                "message" : "Message is too long.",
+                "success" : false,
+            });
         }
         await inviteToHouseEmail({ referral, email, name, message, houseName, houseId });
         res.status(200).send({
@@ -49,7 +61,10 @@ const inviteMembers = ({ User }) => async (req, res) => {
             houseName
         });
     } catch(err){
-        res.status(400).send({err});
+        res.status(400).send({
+            "message" : "Member not invited",
+            "success" : false,
+        });
     }
 }
 

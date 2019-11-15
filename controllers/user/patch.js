@@ -13,7 +13,10 @@ const patchLoggedInUser = () => async (req, res) => {
         await user.save();
         res.send(user);
     } catch (err) {
-        res.status(400).send();
+        res.status(400).send({
+            "message" : "User not updated.",
+            "success" : false,
+        });
     }
 };
 
