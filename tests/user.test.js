@@ -94,3 +94,10 @@ test('Should not update invalid user fields', async () => {
                 location: '',
             }).expect(400);
 });
+
+test('Should not update unathenticated user', async () => {
+    await request(app)
+            .patch('/users/me')
+            .send()
+            .expect(401);
+});

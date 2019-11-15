@@ -1,4 +1,4 @@
-const deleteLoggedInUser = ({ User }) => async (req, res) => {
+const deleteLoggedInUser = () => async (req, res) => {
     try {
         await req.user.remove();
         res.send(req.user);
