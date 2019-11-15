@@ -9,7 +9,7 @@ const postUser = ({ User }) => async (req, res) => {
         res.status(201).send({ user, token });
     } catch (err) {
         res.status(400).send({
-            "message" : "User added.",
+            "message" : "User not added.",
             "success" : false,
         });
     }
