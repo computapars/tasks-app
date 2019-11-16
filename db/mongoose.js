@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
-const mongoDbUri = process.env.MONGODB_URI;
-const mongoDbName = process.env.MONGODB_NAME
+const mongoDbUrl = process.env.MONGODB_URL;
 
-mongoose.connect(`${mongoDbUri}/${mongoDbName}`, {
+mongoose.connect(`${mongoDbUrl}`, {
     useNewUrlParser:true,
     useCreateIndex: true,
     useUnifiedTopology: true,

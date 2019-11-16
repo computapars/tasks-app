@@ -1,6 +1,6 @@
 const sgMail = require('@sendgrid/mail');
 const PORT = process.env.PORT;
-const url = `${process.env.DOMAIN}:${PORT}`;
+const url = `${process.env.DOMAIN}${PORT ? ':': ''}${PORT ? PORT: ''}`;
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
