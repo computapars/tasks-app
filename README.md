@@ -1,6 +1,6 @@
 # Introduction
 
-YourTurn API was built from the ground-up with MongoDb, Mongoose and Express.
+Yourturn was built from the ground-up with MongoDb, Mongoose, Express, React and Redux. It is using components from the computapars design system.
 
 ## Authorization
 
