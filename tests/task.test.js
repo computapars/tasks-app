@@ -15,7 +15,7 @@ beforeEach( async () => {
 
 test('Should create a new task', async () => {
     request(app)
-        .post('/tasks')
+        .post('/api/tasks')
         .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
         .send(taskOne)
         .expect(201);
@@ -23,7 +23,7 @@ test('Should create a new task', async () => {
 
 test('Should not create a new task if member isn\'t part of a house', async () => {
     await request(app)
-        .post('/tasks')
+        .post('/api/tasks')
         .set('Authorization', `Bearer ${userThree.tokens[0].token}`)
         .send(taskOne)
         .expect(401);
@@ -31,12 +31,12 @@ test('Should not create a new task if member isn\'t part of a house', async () =
 
 test('Should update task', async () => {
     const task = await request(app)
-        .post('/tasks')
+        .post('/api/tasks')
         .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
         .send(taskOne)
         .expect(201);
     const update = await request(app)
-        .patch(`/tasks/${task.body._id}`)
+        .patch(`/api/tasks/${task.body._id}`)
         .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
         .send({
             ...taskOne,
@@ -47,12 +47,12 @@ test('Should update task', async () => {
 
 test('Should assign task to other member', async () => {
     const task = await request(app)
-    .post('/tasks')
+    .post('/api/tasks')
     .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
     .send(taskOne)
     .expect(201);
     const update = await request(app)
-        .patch(`/tasks/${task.body._id}`)
+        .patch(`/api/tasks/${task.body._id}`)
         .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
         .send({
             ...taskOne,
@@ -64,7 +64,7 @@ test('Should assign task to other member', async () => {
 
 test('Should rotate task to next member in house', async () => {
     const task = await request(app)
-        .post('/tasks')
+        .post('/api/tasks')
         .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
         .send({
             ...taskOne,
@@ -72,7 +72,7 @@ test('Should rotate task to next member in house', async () => {
         })
         .expect(201);
     const update = await request(app)
-        .patch(`/tasks/${task.body._id}`)
+        .patch(`/api/tasks/${task.body._id}`)
         .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
         .send({
             completed: true,
@@ -85,17 +85,17 @@ test('Should rotate task to next member in house', async () => {
 
 test('Should get tasks assigned to house', async () => {
     await request(app)
-        .post('/tasks')
+        .post('/api/tasks')
         .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
         .send(taskOne)
         .expect(201);
     await request(app)
-        .post('/tasks')
+        .post('/api/tasks')
         .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
         .send(taskTwo)
         .expect(201);
     const tasksByHouse = await request(app)
-        .get('/tasks/house')
+        .get('/api/tasks/house')
         .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
         .send()
         .expect(200);   
@@ -104,7 +104,7 @@ test('Should get tasks assigned to house', async () => {
 
 test('Should not get tasks if user is not a member of the house', async () => {
     await request(app)
-        .get('/tasks/house')
+        .get('/api/tasks/house')
         .set('Authorization', `Bearer ${userThree.tokens[0].token}`)
         .send()
         .expect(401);   
@@ -112,11 +112,11 @@ test('Should not get tasks if user is not a member of the house', async () => {
 
 test('Should get uncompleted tasks assigned to user', async () => {
     await request(app)
-        .post('/tasks')
+        .post('/api/tasks')
         .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
         .send(taskOne);
     const incompleteTasks = await request(app)
-        .get('/tasks')
+        .get('/api/tasks')
         .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
         .send()
         .expect(200);
@@ -125,14 +125,14 @@ test('Should get uncompleted tasks assigned to user', async () => {
 
 test('Should only get completed tasks assigned to user', async () => {
     await request(app)
-        .post('/tasks')
+        .post('/api/tasks')
         .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
         .send({
             ...taskOne,
             completed: true,
         });
     const incompleteTasks = await request(app)
-        .get('/tasks')
+        .get('/api/tasks')
         .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
         .send()
         .expect(200);
@@ -141,8 +141,8 @@ test('Should only get completed tasks assigned to user', async () => {
 
 
 test('Should not get tasks assigned to other users', async () => {
-    const task = await request(app)
-        .post('/tasks')
+    await request(app)
+        .post('/api/tasks')
         .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
         .send({
             description: "Spam Task",
@@ -151,7 +151,7 @@ test('Should not get tasks assigned to other users', async () => {
             assignedTo: userOne._id,
         });
     const response = await request(app)
-        .get('/tasks')
+        .get('/api/tasks')
         .set('Authorization', `Bearer ${userTwo.tokens[0].token}`)
         .send()
         .expect(200);
@@ -160,7 +160,7 @@ test('Should not get tasks assigned to other users', async () => {
 
 test('Should get task by id', async () => {
     const task = await request(app)
-        .post('/tasks')
+        .post('/api/tasks')
         .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
         .send({
             description: "Spam Task",
@@ -169,7 +169,7 @@ test('Should get task by id', async () => {
             assignedTo: userOne._id,
         });
     await request(app)
-        .get(`/tasks/${task.body._id}`)
+        .get(`/api/tasks/${task.body._id}`)
         .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
         .send()
         .expect(200);
@@ -177,7 +177,7 @@ test('Should get task by id', async () => {
 
 test('Should not get task by id if there is malformed id', async () => {
     const task = await request(app)
-        .post('/tasks')
+        .post('/api/tasks')
         .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
         .send({
             description: "Spam Task",
@@ -186,7 +186,7 @@ test('Should not get task by id if there is malformed id', async () => {
             assignedTo: userOne._id,
         });
     await request(app)
-        .get(`/tasks/${task.body._id}foo`)
+        .get(`/api/tasks/${task.body._id}foo`)
         .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
         .send()
         .expect(400);
@@ -194,7 +194,7 @@ test('Should not get task by id if there is malformed id', async () => {
 
 test('Should allow user to delete task', async () => {
     const task = await request(app)
-        .post('/tasks')
+        .post('/api/tasks')
         .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
         .send({
             description: "Spam Task",
@@ -203,7 +203,7 @@ test('Should allow user to delete task', async () => {
             assignedTo: userOne._id,
         });
     await request(app)
-        .delete(`/tasks/${task.body._id}`)
+        .delete(`/api/tasks/${task.body._id}`)
         .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
         .send()
         .expect(200);
@@ -211,7 +211,7 @@ test('Should allow user to delete task', async () => {
 
 test('Should not allow user to delete someone else\'s task', async () => {
     const task = await request(app)
-        .post('/tasks')
+        .post('/api/tasks')
         .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
         .send({
             description: "Spam Task",
@@ -220,7 +220,7 @@ test('Should not allow user to delete someone else\'s task', async () => {
             assignedTo: userOne._id,
         });
     await request(app)
-        .delete(`/tasks/${task.body._id}`)
+        .delete(`/api/tasks/${task.body._id}`)
         .set('Authorization', `Bearer ${userTwo.tokens[0].token}`)
         .send()
         .expect(400);
