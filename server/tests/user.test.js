@@ -1,5 +1,5 @@
 const request = require('supertest');
-const app = require('../app');
+const app = require('./../../app');
 const User = require('../models/user');
 
 const {
@@ -11,7 +11,7 @@ beforeEach(setupUserDb);
 
 test('Signup new user', async () => {
     const response = await request(app)
-            .post('/users')
+            .post('/api/users')
             .send({
                 name: 'Marlene',
                 email: 'marlenebowles@gmail.com',
@@ -31,7 +31,7 @@ test('Signup new user', async () => {
 });
 
 test('Should not login nonexistant user', async () => {
-    await request(app).post('/users/login')
+    await request(app).post('/api/users/login')
             .send({
                 email: userOne.email,
                 password: 'barbarbar'
@@ -40,7 +40,7 @@ test('Should not login nonexistant user', async () => {
 });
 
 test('Should login existing user', async () => {
-    const response = await request(app).post('/users/login')
+    const response = await request(app).post('/api/users/login')
             .send(userOne)
             .expect(200);
     const user = await User.findById(userOne._id);
@@ -49,14 +49,14 @@ test('Should login existing user', async () => {
 
 test('Should not get profile for unathenticated user', async () => {
     await request(app)
-        .get('/users/me')
+        .get('/api/users/me')
         .send()
         .expect(401);
 });
 
 test('Should get profile for user', async () => {
     await request(app)
-            .get('/users/me')
+            .get('/api/users/me')
             .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
             .send()
             .expect(200);
@@ -64,7 +64,7 @@ test('Should get profile for user', async () => {
 
 test('Should delete user', async () => {
     const response = await request(app)
-            .delete('/users/me')
+            .delete('/api/users/me')
             .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
             .send()
             .expect(200);
@@ -74,14 +74,14 @@ test('Should delete user', async () => {
 
 test('Should not delete unathenticated user', async () => {
     await request(app)
-            .delete('/users/me')
+            .delete('/api/users/me')
             .send()
             .expect(401);
 });
 
 test('Should update valid user fields', async () => {
     const response = await request(app)
-            .patch('/users/me')
+            .patch('/api/users/me')
             .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
             .send({
                 name: "Bar"
@@ -92,7 +92,7 @@ test('Should update valid user fields', async () => {
 
 test('Should not update invalid user fields', async () => {
     await request(app)
-            .patch('/users/me')
+            .patch('/api/users/me')
             .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
             .send({
                 location: '',
@@ -101,7 +101,7 @@ test('Should not update invalid user fields', async () => {
 
 test('Should not update unathenticated user', async () => {
     await request(app)
-            .patch('/users/me')
+            .patch('/api/users/me')
             .send()
             .expect(401);
 });
