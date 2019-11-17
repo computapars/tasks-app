@@ -1,10 +1,10 @@
 const path = require('path');
 const express = require('express');
 const app = express();
-const api = require('./api');
+const api = require('./server/api');
 
 // Runs mongoose db
-require('./db/mongoose');
+require('./server/db/mongoose');
 
 // api routes v1
 app.use('/api', api());
