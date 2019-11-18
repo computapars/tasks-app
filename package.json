@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./index.js",
-    "dev": "env-cmd -f ./.env.local nodemon ./index.js",
+    "dev": "concurrently \"yarn install\" \"yarn run dev-api\" \"yarn run dev-client\"",
+    "dev-client": "cd client && yarn install && yarn run start",
+    "dev-api": "env-cmd -f ./.env.local nodemon ./index.js",
     "tests": "env-cmd -f ./.env.test jest --watch --runInBand",
     "heroku-postbuild": "cd client && yarn install --only=dev && yarn install && yarn run build"
   },
